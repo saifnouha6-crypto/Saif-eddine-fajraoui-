@@ -1,1 +1,842 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Studio | خدمات إبداعية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --white: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gray: #1a1a1a;
+    --gray2: #2a2a2a;
+    --text-muted: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Tajawal', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease, width 0.3s, height 0.3s;
+    mix-blend-mode: difference;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 60px;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { z-index: 1; }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.2s ease both;
+    font-weight: 300;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 14px 36px;
+    border-radius: 100px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    cursor: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 36px;
+    border-radius: 100px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s;
+    cursor: none;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .visual-frame {
+    width: 380px;
+    height: 480px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    background: var(--gray);
+  }
+
+  .visual-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 60%);
+  }
+
+  .visual-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    padding: 24px;
+  }
+
+  .visual-cell {
+    background: var(--gray2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    transition: background 0.3s;
+  }
+
+  .visual-cell:hover { background: rgba(201,168,76,0.15); }
+
+  .visual-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .visual-label span {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .visual-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Stats */
+  .stats {
+    display: flex;
+    gap: 48px;
+    padding: 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .stat { flex: 1; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Services */
+  .services {
+    padding: 100px 60px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--gray);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: none;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+  }
+
+  .service-card:hover { background: var(--gray2); }
+  .service-card:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .service-icon {
+    font-size: 40px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .service-price {
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  /* Process */
+  .process {
+    padding: 100px 60px;
+    background: var(--gray);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .step {
+    position: relative;
+  }
+
+  .step::after {
+    content: '←';
+    position: absolute;
+    top: 20px;
+    left: -24px;
+    color: rgba(201,168,76,0.3);
+    font-size: 18px;
+  }
+
+  .step:last-child::after { display: none; }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Contact */
+  .contact {
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 60px);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .contact-title em { color: var(--gold); font-style: italic; }
+
+  .contact-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: color 0.3s;
+  }
+
+  .contact-link:hover { color: var(--gold); }
+
+  .contact-link-icon {
+    width: 40px; height: 40px;
+    background: var(--gray);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Form */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    transition: border-color 0.3s;
+    outline: none;
+    resize: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--gold);
+  }
+
+  .form-group select option { background: var(--gray); }
+
+  .form-group textarea { height: 120px; }
+
+  .submit-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 16px;
+    border-radius: 4px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: none;
+    transition: all 0.3s;
+    letter-spacing: 0.05em;
+  }
+
+  .submit-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+  }
+
+  /* Footer */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  footer .logo { font-size: 18px; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--gold);
+    color: var(--black);
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.4s;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats { padding: 40px 24px; gap: 24px; flex-wrap: wrap; }
+    .services { padding: 60px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process { padding: 60px 24px; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .contact { padding: 60px 24px; grid-template-columns: 1fr; }
+    footer { padding: 30px 24px; flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Creative.</div>
+  <ul class="nav-links">
+    <li><a href="#services">الخدمات</a></li>
+    <li><a href="#process">كيف أعمل</a></li>
+    <li><a href="#contact">تواصل</a></li>
+  </ul>
+  <a href="#contact" class="btn-primary" style="padding:10px 24px; font-size:13px;">ابدأ مشروعك</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">✦ متاح للعمل الآن</div>
+    <h1>أصنع<br><em>إبداعاً</em><br>يُحكى</h1>
+    <p class="hero-desc">تصميم جرافيك، مونتاج فيديو، وتعديل صور احترافي — أحوّل أفكارك إلى محتوى بصري يترك أثراً.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">اطلب خدمة</a>
+      <a href="#services" class="btn-outline">اكتشف الخدمات</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="visual-frame">
+      <div class="visual-grid">
+        <div class="visual-cell">🎨</div>
+        <div class="visual-cell">🎬</div>
+        <div class="visual-cell">📸</div>
+        <div class="visual-cell">✨</div>
+      </div>
+      <div class="visual-label">
+        <span>Portfolio 2024</span>
+        <div class="visual-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats reveal">
+  <div class="stat">
+    <div class="stat-num">50+</div>
+    <div class="stat-label">مشروع منجز</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">30+</div>
+    <div class="stat-label">عميل راضٍ</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3+</div>
+    <div class="stat-label">سنوات خبرة</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">التزام بالموعد</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">✦ ما أقدمه</div>
+      <h2 class="section-title">خدمات<br><em>احترافية</em></h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">🎨</span>
+      <h3 class="service-title">تصميم جرافيك</h3>
+      <p class="service-desc">شعارات، هوية بصرية، بوسترات، وتصاميم سوشيال ميديا بأسلوب مميز يعكس روح علامتك التجارية.</p>
+      <div class="service-price">يبدأ من 20$</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🎬</span>
+      <h3 class="service-title">مونتاج فيديو</h3>
+      <p class="service-desc">تحرير احترافي للفيديوهات، ريلز، إعلانات، وفيديوهات يوتيوب مع موشن جرافيك وتأثيرات بصرية.</p>
+      <div class="service-price">يبدأ من 30$</div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">📸</span>
+      <h3 class="service-title">تعديل صور</h3>
+      <p class="service-desc">ريتاش احترافي، تعديل ألوان، إزالة خلفيات، وتحسين جودة الصور لمستوى يناسب النشر والطباعة.</p>
+      <div class="service-price">يبدأ من 5$</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="reveal">
+    <div class="section-tag">✦ كيف أعمل</div>
+    <h2 class="section-title">العملية<br><em>الإبداعية</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h3 class="step-title">التواصل</h3>
+      <p class="step-desc">أفهم احتياجاتك وتفاصيل مشروعك بشكل كامل قبل البدء.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <h3 class="step-title">العرض</h3>
+      <p class="step-desc">أرسل لك عرض سعر واضح مع مدة التسليم.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <h3 class="step-title">التنفيذ</h3>
+      <p class="step-desc">أبدأ العمل وأرسل لك تحديثات منتظمة حتى تطمئن.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <h3 class="step-title">التسليم</h3>
+      <p class="step-desc">تستلم عملك كاملاً مع ملفات عالية الجودة وتعديل مجاني.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="reveal">
+    <h2 class="contact-title">هل لديك<br><em>مشروع؟</em></h2>
+    <p class="contact-desc">تواصل معي الآن وسأرد خلال 24 ساعة. أهتم بكل مشروع مهما كان حجمه.</p>
+    <div class="contact-links">
+      <a href="mailto:your@email.com" class="contact-link">
+        <div class="contact-link-icon">✉️</div>
+        your@email.com
+      </a>
+      <a href="https://wa.me/21600000000" class="contact-link" target="_blank">
+        <div class="contact-link-icon">📱</div>
+        واتساب / تيليغرام
+      </a>
+      <a href="https://fiverr.com" class="contact-link" target="_blank">
+        <div class="contact-link-icon">💼</div>
+        Fiverr Profile
+      </a>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="contact-form">
+      <div class="form-group">
+        <label>اسمك</label>
+        <input type="text" placeholder="محمد أحمد">
+      </div>
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>نوع الخدمة</label>
+        <select>
+          <option value="">اختر الخدمة...</option>
+          <option>تصميم جرافيك</option>
+          <option>مونتاج فيديو</option>
+          <option>تعديل صور</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>تفاصيل المشروع</label>
+        <textarea placeholder="أخبرني عن مشروعك..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">إرسال الطلب ✦</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Creative.</div>
+  <p>© 2024 — جميع الحقوق محفوظة</p>
+  <p style="color:var(--gold); font-size:12px;">صُنع بـ ❤️</p>
+</footer>
+
+<div class="toast" id="toast">✦ تم إرسال طلبك! سأتواصل معك قريباً</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Form submit
+  function submitForm() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+</script>
+</body>
+</html>
