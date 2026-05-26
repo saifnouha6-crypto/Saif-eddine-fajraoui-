@@ -830,7 +830,7 @@
   }, { threshold: 0.1 });
   reveals.forEach(r => observer.observe(r));
 
-// Form submit with Formspree
+// Form submit with Web3Forms
   async function submitForm() {
     const btn = document.getElementById('submitBtn');
     const name = document.querySelector('input[type="text"]').value;
@@ -844,12 +844,16 @@
     btn.textContent = 'جاري الإرسال...';
     btn.disabled = true;
     try {
-      const res = await fetch('https://formspree.io/f/xlgvpyjv', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, service, message })
+        body: JSON.stringify({
+          access_key: '4c777645-d0ba-461d-af1f-3e904c833bb2',
+          name, email, service, message
+        })
       });
-      if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
         const toast = document.getElementById('toast');
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3500);
