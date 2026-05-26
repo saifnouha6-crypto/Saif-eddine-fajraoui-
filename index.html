@@ -830,11 +830,41 @@
   }, { threshold: 0.1 });
   reveals.forEach(r => observer.observe(r));
 
-  // Form submit
-  function submitForm() {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3500);
+// Form submit with Formspree
+  async function submitForm() {
+    const btn = document.getElementById('submitBtn');
+    const name = document.querySelector('input[type="text"]').value;
+    const email = document.querySelector('input[type="email"]').value;
+    const service = document.querySelector('select').value;
+    const message = document.querySelector('textarea').value;
+    if (!name || !email || !message) {
+      alert('يرجى ملء جميع الحقول');
+      return;
+    }
+    btn.textContent = 'جاري الإرسال...';
+    btn.disabled = true;
+    try {
+      const res = await fetch('https://formspree.io/f/xlgvpyjv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, service, message })
+      });
+      if (res.ok) {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3500);
+        document.querySelector('input[type="text"]').value = '';
+        document.querySelector('input[type="email"]').value = '';
+        document.querySelector('select').value = '';
+        document.querySelector('textarea').value = '';
+      } else {
+        alert('حدث خطأ، حاول مجدداً');
+      }
+    } catch(e) {
+      alert('تعذر الإرسال، تحقق من الاتصال');
+    }
+    btn.textContent = 'إرسال الطلب ✦';
+    btn.disabled = false;
   }
 </script>
 </body>
